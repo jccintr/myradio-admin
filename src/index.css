@@ -1,0 +1,111 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Painel de administração do MyRadio.
+ * Cinzas neutros nas superfícies, o verde do MyRadio só como destaque (botão principal, item ativo, foco)
+ * e cor de verdade reservada para estados (no ar, fora do ar, atenção).
+ */
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Bricolage Grotesque Variable', 'Inter Variable', ui-sans-serif, sans-serif;
+
+  --color-gray-50: #f7f8f7;
+  --color-gray-100: #eff1ef;
+  --color-gray-200: #e2e5e1;
+  --color-gray-300: #cdd2cc;
+  --color-gray-400: #969d95;
+  --color-gray-500: #646b63;
+  --color-gray-600: #4a5049;
+  --color-gray-700: #2f342f;
+  --color-gray-800: #222622;
+  --color-gray-900: #141614;
+  --color-gray-950: #0b0c0b;
+
+  --color-canvas: #eceeeb;
+
+  /* verde MyRadio: fundo de botão (brand) e texto sobre fundo claro (brand-ink, com contraste AA) */
+  --color-brand: #1db954;
+  --color-brand-hover: #1aa34a;
+  --color-brand-fg: #08130c;
+  --color-brand-ink: #13803a;
+
+  --radius-xl: 0.75rem;
+}
+
+:root {
+  --color-gray-200: #dfe3de;
+}
+.dark {
+  --color-gray-200: #e2e5e1;
+  --color-brand-ink: #3ddc7a;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-canvas text-[14px] text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--color-brand) 35%, transparent);
+  }
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Equalizador da rádio que está tocando (mesmo do MyRadio web) */
+@keyframes eq {
+  0%,
+  100% {
+    transform: scaleY(0.25);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+.eq-bar {
+  transform-origin: bottom;
+  animation: eq 0.9s ease-in-out infinite;
+}
+.eq-bar:nth-child(2) {
+  animation-delay: -0.3s;
+  animation-duration: 0.75s;
+}
+.eq-bar:nth-child(3) {
+  animation-delay: -0.6s;
+  animation-duration: 1.05s;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-rise {
+  animation: rise 0.18s ease-out;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #2f342f;
+  border-radius: 8px;
+}
